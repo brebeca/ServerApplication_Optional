@@ -12,7 +12,11 @@ public class App {
 
     public static void main(String[] args) throws IOException {
         ServerSocket serverSocket = null ;
-        try {
+        Player p=new Player("nume");
+        Board board= new Board(p);
+
+        System.out.println(board.picked(0,0,p)+" Rezultat");
+       /* try {
             Game game=new Game();
             serverSocket = new ServerSocket(8000);
             while (true) {
@@ -25,7 +29,7 @@ public class App {
             System.err. println ("Ooops... " + e);
         } finally {
             serverSocket.close();
-        }
+        }*/
 
     }
 }

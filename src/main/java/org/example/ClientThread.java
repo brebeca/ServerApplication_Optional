@@ -12,14 +12,10 @@ public class ClientThread extends  Thread {
     BufferedReader reader ;
     Board board=null;
     Player player=null;
-    /**
-     * aici se intitializeaza socketul cu cel din GameServer si toate celelate clase nesesare citrii si crriei in socket
-     * @param game
-     * @throws IOException
-     */
+
+
     ClientThread(Socket socket, String name, Game game) throws IOException {
         this.game=game;
-       // g.accept();
         socket=socket;
         player=new Player(name);
         toClient= socket.getOutputStream();
@@ -29,6 +25,10 @@ public class ClientThread extends  Thread {
     }
 
 
+    /**
+     * se verifica daac exista un board initializat si daca nu se initializeaza unul
+     * se returneaza si mutarile disponibile
+     */
     public void create(){
         if(board!=null) {
             writer.println("esti deja intr un joc ");
@@ -41,6 +41,10 @@ public class ClientThread extends  Thread {
         }
     }
 
+    /**
+     * se verifica daca boardul este initializat
+     * daca nu este intializat servarul il adauga la un joc existent deja(daca exista vreunul)
+     */
     public void joinGame() {
         if (board != null) {
             writer.println("esti deja intr un joc ");
@@ -60,7 +64,10 @@ public class ClientThread extends  Thread {
     }
 
 
-
+    /**
+     * in functie de comenzile introduse de apeleaza functile corespunzatoare
+     * daca comanda nu este recunoscuta se trmite un mesaj de eroare
+     */
     public void run() {
         String line;
 
@@ -103,6 +110,17 @@ public class ClientThread extends  Thread {
         }
     }
 
+    /**
+     * daca boardul nu este intializat mutarea nu se executa si se trmite mesaj explicativ
+     * se separa i-ul si j-ul din comanda clientului
+     * se apeleaza functia picked din board care "pune piesa" daca se poate
+     * daca intoarece null inseamna ca jocul s a terminat
+     * daca intoarce e inseamana ca jucatorul este castigator
+     * daca intoarce 0 jocul continua
+     * @param line comanda
+     * @return
+     */
+
     private boolean submit(String line) {
 
             if(board==null){
@@ -116,6 +134,7 @@ public class ClientThread extends  Thread {
             Integer j = Integer.parseInt(line.substring(8, 9));
 
             Integer result =board.picked(i,j,player);
+            System.out.println("rezultatul este" + result);
             if(result==null){
                 writer.println("jocul s a terminat. a castigant jucatorul "+player.piesa);
                 writer.flush();

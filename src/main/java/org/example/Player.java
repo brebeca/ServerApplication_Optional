@@ -7,6 +7,7 @@ public class Player {
     Player(String name){
         this.name=name;
     }
+
     public void setPiesa(int piesa){
         this.piesa=piesa;
     }
