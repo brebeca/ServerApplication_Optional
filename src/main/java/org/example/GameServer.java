@@ -9,13 +9,14 @@ public class GameServer {
 
     ServerSocket serverSocket;
     Socket socket;
+    Game game;
 
     /**
      * initializeaza soketul pt portul 8000
      * @throws IOException
      */
     GameServer() throws IOException {
-        serverSocket=new ServerSocket(8000);
+        game=new Game();
     }
 
     /**
